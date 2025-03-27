@@ -47,7 +47,6 @@ void	*dead_philo(void *args)
 	int			i;
 
 	table = (t_table *)args;
-	table = NULL;
 	while (1)
 	{
 		i = 0;
