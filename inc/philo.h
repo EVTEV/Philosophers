@@ -1,43 +1,68 @@
 #ifndef PHILO_H
 # define PHILO_H
 
-# include <pthread.h>
 # include <stdio.h>
+# include <unistd.h>
+# include <limits.h>
 # include <stdlib.h>
 # include <sys/time.h>
-# include <unistd.h>
+# include <stdbool.h>
+# include <pthread.h>
+
+typedef enum	e_state
+{
+	THINKING,
+	EATING,
+	SLEEPING,
+	DEAD,
+}	t_state;
+
+typedef struct	s_fork 
+{
+	pthread_mutex_t	mutex;
+	int				id;
+}	t_fork
 
 typedef struct	s_philo 
 {
+	struct s_data	*data;
 	int				id;
-	int				nbr_meal;
+	int				meal_eat;
 	long long		time_meal;
     pthread_t		thread;
-    pthread_mutex_t	*left_fork;
-    pthread_mutex_t	*right_fork;
+	t_state			state;
+    t_fork			*left_fork;
+    t_fork			*right_fork;
 }	t_philo;
 
-typedef struct	s_table
+typedef struct	s_data
 {
 	int				num_philo;
-	pthread_mutex_t	*forks;
-	t_philo			*philo;
-}	t_table;
+	int				time_to_die;
+	int				time_to_eat;
+	int				time_to_sleep;
+	int				num_meal;
+	bool			meal_stop;
+	long long		start;
+	t_fork;			*forks;
+	t_philo;		*philo;
+	pthread_mutex_t	print_mutex;
+	pthread_mutex_t	dead_mutex;
+}	t_data;
 
 
-//----------init----------//
-//-----init_room.c-----//
-t_table	*init_table(int num_philo);
 
-//----------meal----------//
-//-----sart_meal.c-----//
-long long	get_time(void);
-void		*start_meal(void *args);
-void		*dead_philo(void *args);
+// --------------- init.c --------------- //
+int	init_data(t_data *data, int ac, char *av);
+int	init_mutex(t_data *data);
+int	init_fork(t_data *data);
+int	init_philo(t_data *data);
 
-//----------utils----------//
-//-----utils.c-----//
-char	msg_error(char *msg);
+// --------------- clean.c --------------- //
+void	clean_resource(t_data *data);
+
+// --------------- utils.c --------------- //
+int	ft_atoi(const char *str);
 
 #endif
 
