@@ -1,3 +1,4 @@
+#include "../inc/philo.h"
 
 /* this fonction destroy mutexes and free allocated memory */
 void	clean_resource(t_data *data)

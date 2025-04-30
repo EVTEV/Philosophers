@@ -21,7 +21,7 @@ typedef struct	s_fork
 {
 	pthread_mutex_t	mutex;
 	int				id;
-}	t_fork
+}	t_fork;
 
 typedef struct	s_philo 
 {
@@ -44,8 +44,8 @@ typedef struct	s_data
 	int				num_meal;
 	bool			meal_stop;
 	long long		start;
-	t_fork;			*forks;
-	t_philo;		*philo;
+	t_fork			*fork;
+	t_philo			*philo;
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	dead_mutex;
 }	t_data;
@@ -53,7 +53,7 @@ typedef struct	s_data
 
 
 // --------------- init.c --------------- //
-int	init_data(t_data *data, int ac, char *av);
+int	init_data(t_data *data, int ac, char **av);
 int	init_mutex(t_data *data);
 int	init_fork(t_data *data);
 int	init_philo(t_data *data);

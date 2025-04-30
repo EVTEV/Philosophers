@@ -12,7 +12,7 @@ void print_philo_info(t_data *data)
 		printf("  - State: %d\n", data->philo[i].state);
 		printf("  - Left fork ID: %d\n", data->philo[i].left_fork->id);
 		printf("  - Right fork ID: %d\n", data->philo[i].right_fork->id);
-		printf("  - Meals eaten: %d\n", data->philo[i].meals_eaten);
+		printf("  - Meals eaten: %d\n", data->philo[i].meal_eat);
 		printf("\n");
 	}
 	printf("====================================\n\n");
@@ -90,7 +90,7 @@ int main(int argc, char **argv)
 	}
 	printf("init_philosophers succeeded!\n");
 	// Print philosopher info to verify
-	print_philosophers_info(&data);
+	print_philo_info(&data);
 	// Test cleanup
 	printf("Testing cleanup_resources...\n");
 	clean_resource(&data);

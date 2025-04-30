@@ -1,6 +1,6 @@
 #include "../inc/philo.h"
 
-int	init_data(t_data *data, int ac, char *av)
+int	init_data(t_data *data, int ac, char **av)
 {
 	data->num_philo = ft_atoi(av[1]);
 	data->time_to_die = ft_atoi(av[2]);
@@ -10,7 +10,7 @@ int	init_data(t_data *data, int ac, char *av)
 	if (ac == 6)
 		data->num_meal =  ft_atoi(av[5]);
 	else
-		data->num_meals = -1;
+		data->num_meal = -1;
 	if (data->num_philo <= 0 || data->time_to_die <= 0
 		|| data->time_to_eat <= 0 || data->time_to_sleep <= 0
 		|| (ac == 6 && data->num_meal <= 0))
@@ -22,6 +22,13 @@ int	init_data(t_data *data, int ac, char *av)
 	if (!data->philo)
 	{
 		printf("Error:\nMemory allocation failed\n");
+		return (1);
+	}
+	data->fork = malloc(sizeof(t_fork) * data->num_philo);
+    if (!data->fork)
+    {
+		printf("Error:\nMemory allocation failed for forks\n");
+		free(data->philo);
 		return (1);
 	}
 	return (0);
@@ -58,8 +65,9 @@ int	init_fork(t_data *data)
 				pthread_mutex_destroy(&data->fork[i].mutex);
 			return (1);
 		}
-		return (0)
+		i++;
 	}
+	return (0);
 }
 
 int	init_philo(t_data *data)
@@ -70,13 +78,13 @@ int	init_philo(t_data *data)
 	while (i < data->num_philo)
 	{
 		data->philo[i].id = i + 1;
-		data->philo[i].state = THINKINK;
+		data->philo[i].state = THINKING;
 		data->philo[i].meal_eat = 0;
-		data->philo[i].last_meal_time = 0;
+		data->philo[i].time_meal = 0;
 		data->philo[i].data = data;
 		data->philo[i].left_fork = &data->fork[i];
-		data->philo[i].left_fork = &data->fork[(i + 1) % data->num_philo];
-		i++
+		data->philo[i].right_fork = &data->fork[(i + 1) % data->num_philo];
+		i++;
 	}
 	return (0);
 }
