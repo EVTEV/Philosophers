@@ -24,3 +24,43 @@ int	ft_atoi(const char *str)
 	}
 	return (result * sign);
 }
+
+long long	get_time(void)
+{
+	struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+}
+
+long long	time_diff(long long past, long long present)
+{
+	return (present - past);
+}
+
+void	precise_sleep(long long time)
+{
+	long long	start;
+
+	start = get_time();
+	while ((get_time() - start) < time)
+		usleep(100);
+}
+
+void	print_status(t_philo *philo, char *status)
+{
+	long long	current_time;
+	t_data		*data;
+	bool		should_stop;
+
+	data = philo->data;
+	pthread_mutex_lock(&data->dead_mutex);
+	should_stop = data->stop_all;
+	pthread_mutex_unlock(&data->dead_mutex);
+	if (should_stop)
+		return ;
+	current_time = get_time() - data->start;
+	pthread_mutex_lock(&data->print_mutex);
+	printf("%lld %d %s\n", current_time, philo->id, status);
+	pthread_mutex_unlock(&data->print_mutex);
+}

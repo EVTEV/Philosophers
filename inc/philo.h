@@ -42,12 +42,13 @@ typedef struct	s_data
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				num_meal;
-	bool			meal_stop;
+	bool			stop_all;
 	long long		start;
 	t_fork			*fork;
 	t_philo			*philo;
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	dead_mutex;
+	pthread_t		monitor_thread;
 }	t_data;
 
 
@@ -58,11 +59,35 @@ int	init_mutex(t_data *data);
 int	init_fork(t_data *data);
 int	init_philo(t_data *data);
 
+// --------------- process.c --------------- //
+int	create_philo(t_data *data);
+int	create_monitor(t_data *data);
+int	join_philo(t_data *data);
+int	start_routine(t_data *data);
+
+// --------------- routine.c --------------- //
+void	philo_eat(t_philo *philo);
+void	philo_sleep(t_philo *philo);
+void	philo_think(t_philo *philo);
+void	*philo_routine(void *arg);
+// --------------- routine.c --------------- //
+bool	check_stop_condition(t_philo *philo);
+void	take_forks(t_philo *philo);
+void	release_forks(t_philo *philo);
+bool	has_eaten_enough(t_philo *philo);
+
+// --------------- monitor.c --------------- //
+void	*monitor_routine(void *arg);
+
 // --------------- clean.c --------------- //
-void	clean_resource(t_data *data);
+void	cleanup(t_data *data);
 
 // --------------- utils.c --------------- //
 int	ft_atoi(const char *str);
+long long	get_time(void);
+long long	time_diff(long long past, long long present);
+void	precise_sleep(long long time);
+void	print_status(t_philo *philo, char *status);
 
 #endif
 
