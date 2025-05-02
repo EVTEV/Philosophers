@@ -1,6 +1,7 @@
+//================================ UTILS FOR ROUTINE =================================//
+
 #include "../inc/philo.h"
 
-//================================ UTILS FOR ROUTINE =================================//
 /* Check if routine should stop */
 bool	check_stop_condition(t_philo *philo)
 {

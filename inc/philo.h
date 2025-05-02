@@ -70,7 +70,7 @@ void	philo_eat(t_philo *philo);
 void	philo_sleep(t_philo *philo);
 void	philo_think(t_philo *philo);
 void	*philo_routine(void *arg);
-// --------------- routine.c --------------- //
+// --------------- routine_utils.c --------------- //
 bool	check_stop_condition(t_philo *philo);
 void	take_forks(t_philo *philo);
 void	release_forks(t_philo *philo);
@@ -83,11 +83,14 @@ void	*monitor_routine(void *arg);
 void	cleanup(t_data *data);
 
 // --------------- utils.c --------------- //
-int	ft_atoi(const char *str);
 long long	get_time(void);
 long long	time_diff(long long past, long long present);
 void	precise_sleep(long long time);
 void	print_status(t_philo *philo, char *status);
+
+// --------------- libft_utils.c --------------- //
+int	ft_atoi(const char *str);
+int	msg_error(char *msg);
 
 #endif
 

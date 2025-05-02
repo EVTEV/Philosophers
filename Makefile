@@ -15,7 +15,8 @@ SRC = main.c \
 	  $(SRC_DIR)/routine_utils.c \
 	  $(SRC_DIR)/monitor.c \
 	  $(SRC_DIR)/clean.c \
-	  $(SRC_DIR)/utils.c
+	  $(SRC_DIR)/utils.c \
+	  $(SRC_DIR)/libft_utils.c \
 
 OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 

@@ -14,11 +14,10 @@ int	create_philo(t_data *data)
 		if (pthread_create(&data->philo[i].thread, NULL,
 			philo_routine, &data->philo[i]) != 0)
 		{
-			printf("Error:\nFailed to create philosopher thread\n");
 			pthread_mutex_lock(&data->dead_mutex);
 			data->stop_all = true;
 			pthread_mutex_unlock(&data->dead_mutex);
-			return (1);
+			return (msg_error("Failed to create philosopher thread"));
 		}
 		i++;
 	}
@@ -31,11 +30,10 @@ int	create_monitor(t_data *data)
 	if (pthread_create(&data->monitor_thread, NULL,
 		monitor_routine, data) != 0)
 	{
-		printf("Error:\n Failed to create monitor thread\n");
 		pthread_mutex_lock(&data->dead_mutex);
 		data->stop_all = true;
 		pthread_mutex_unlock(&data->dead_mutex);
-		return (1);
+		return (msg_error("Failed to create monitor thread"));
 	}
 	return (0);
 }
@@ -50,15 +48,13 @@ int	join_philo(t_data *data)
 	{
 		if (pthread_join(data->philo[i].thread, NULL) != 0)
 		{
-			printf("Error:\n Failed to join philosopher thread\n");
-			return (1);
+			return (msg_error("Failed to join philosopher thread"));
 		}
 		i++;
 	}	
 	if (pthread_join(data->monitor_thread, NULL) != 0)
 	{
-		printf("Error:\n Failed to join monitor thread\n");
-		return (1);
+		return (msg_error("Failed to join monitor thread"));
 	}
 	return (0);
 }
