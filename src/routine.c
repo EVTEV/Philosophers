@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   routine.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: acaes <acaes@student.s19.be>               +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/02 12:10:05 by acaes             #+#    #+#             */
+/*   Updated: 2025/05/02 12:10:05 by acaes            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+/* ================================ ROUTINE ================================= */
+
 #include "../inc/philo.h"
 
-//================================ ROUTINE =================================//
 /* Function for philosopher to eat */
 void	philo_eat(t_philo *philo)
 {
@@ -45,7 +57,7 @@ void	philo_think(t_philo *philo)
 	if (philo->data->num_philo % 2 == 0)
 	{
 		think_time = (philo->data->time_to_die - (philo->data->time_to_eat
-						+ philo->data->time_to_sleep)) / 2;
+					+ philo->data->time_to_sleep)) / 2;
 		if (think_time > 200)
 			think_time = 200;
 		else if (think_time < 0)
@@ -63,7 +75,7 @@ void	*philo_routine(void *arg)
 	philo = (t_philo *)arg;
 	data = philo->data;
 	if (philo->id % 2 == 0)
-		usleep(data->time_to_eat * 500);		
+		usleep(data->time_to_eat * 500);
 	if (data->num_philo == 1)
 	{
 		print_status(philo, "has taken a fork");

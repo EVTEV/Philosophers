@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   monitor.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: acaes <acaes@student.s19.be>               +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/02 12:04:14 by acaes             #+#    #+#             */
+/*   Updated: 2025/05/02 12:04:14 by acaes            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+/* ================================ MONITOR ================================= */
+
 #include "../inc/philo.h"
 
-//================================ MONITOR =================================//
 /* Check if all philosophers have eaten enough meals */
 static int	check_if_finish(t_data *data)
 {
@@ -45,7 +57,7 @@ static int	check_if_death(t_data *data)
 			data->stop_all = true;
 			pthread_mutex_unlock(&data->dead_mutex);
 			pthread_mutex_lock(&data->print_mutex);
-			printf("%lld %d died\n", 
+			printf("%lld %d died\n",
 				current - data->start, data->philo[i].id);
 			pthread_mutex_unlock(&data->print_mutex);
 			return (1);
@@ -80,7 +92,7 @@ void	*monitor_routine(void *arg)
 		pthread_mutex_unlock(&data->dead_mutex);
 		if (stop_routine)
 			break ;
-		usleep(1000); 
+		usleep(1000);
 	}
 	return (NULL);
 }

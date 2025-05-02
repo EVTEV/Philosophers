@@ -1,4 +1,15 @@
-//================================ INIT =================================//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: acaes <acaes@student.s19.be>               +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/02 12:01:33 by acaes             #+#    #+#             */
+/*   Updated: 2025/05/02 12:01:33 by acaes            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+/* ================================= INIT =================================== */
 
 #include "../inc/philo.h"
 
@@ -11,7 +22,7 @@ int	init_data(t_data *data, int ac, char **av)
 	data->time_to_sleep = ft_atoi(av[4]);
 	data->stop_all = false;
 	if (ac == 6)
-		data->num_meal =  ft_atoi(av[5]);
+		data->num_meal = ft_atoi(av[5]);
 	else
 		data->num_meal = -1;
 	if (data->num_philo <= 0 || data->time_to_die <= 0
@@ -20,12 +31,10 @@ int	init_data(t_data *data, int ac, char **av)
 		return (msg_error("Invalid arguments"));
 	data->philo = malloc(sizeof(t_philo) * data->num_philo);
 	if (!data->philo)
-	{
 		return (msg_error("Memory allocation failed"));
-	}
 	data->fork = malloc(sizeof(t_fork) * data->num_philo);
-    if (!data->fork)
-    {
+	if (!data->fork)
+	{
 		free(data->philo);
 		return (msg_error("Memory allocation failed for forks"));
 	}

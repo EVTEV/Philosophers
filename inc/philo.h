@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: acaes <acaes@student.s19.be>               +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/02 11:29:17 by acaes             #+#    #+#             */
+/*   Updated: 2025/05/02 11:29:17 by acaes            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PHILO_H
 # define PHILO_H
 
@@ -9,7 +21,7 @@
 # include <stdbool.h>
 # include <pthread.h>
 
-typedef enum	e_state
+typedef enum e_state
 {
 	THINKING,
 	EATING,
@@ -17,25 +29,25 @@ typedef enum	e_state
 	DEAD,
 }	t_state;
 
-typedef struct	s_fork 
+typedef struct s_fork
 {
 	pthread_mutex_t	mutex;
 	int				id;
 }	t_fork;
 
-typedef struct	s_philo 
+typedef struct s_philo
 {
 	struct s_data	*data;
 	int				id;
 	int				meal_eat;
 	long long		time_meal;
-    pthread_t		thread;
+	pthread_t		thread;
 	t_state			state;
-    t_fork			*left_fork;
-    t_fork			*right_fork;
+	t_fork			*left_fork;
+	t_fork			*right_fork;
 }	t_philo;
 
-typedef struct	s_data
+typedef struct s_data
 {
 	int				num_philo;
 	int				time_to_die;
@@ -51,19 +63,17 @@ typedef struct	s_data
 	pthread_t		monitor_thread;
 }	t_data;
 
-
-
 // --------------- init.c --------------- //
-int	init_data(t_data *data, int ac, char **av);
-int	init_mutex(t_data *data);
-int	init_fork(t_data *data);
-int	init_philo(t_data *data);
+int		init_data(t_data *data, int ac, char **av);
+int		init_mutex(t_data *data);
+int		init_fork(t_data *data);
+int		init_philo(t_data *data);
 
 // --------------- process.c --------------- //
-int	create_philo(t_data *data);
-int	create_monitor(t_data *data);
-int	join_philo(t_data *data);
-int	start_routine(t_data *data);
+int		create_philo(t_data *data);
+int		create_monitor(t_data *data);
+int		join_philo(t_data *data);
+int		start_routine(t_data *data);
 
 // --------------- routine.c --------------- //
 void	philo_eat(t_philo *philo);
@@ -89,8 +99,7 @@ void	precise_sleep(long long time);
 void	print_status(t_philo *philo, char *status);
 
 // --------------- libft_utils.c --------------- //
-int	ft_atoi(const char *str);
-int	msg_error(char *msg);
+int		ft_atoi(const char *str);
+int		msg_error(char *msg);
 
 #endif
-

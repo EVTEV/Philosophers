@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   process.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: acaes <acaes@student.s19.be>               +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/02 12:08:42 by acaes             #+#    #+#             */
+/*   Updated: 2025/05/02 12:08:42 by acaes            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+/* =============================== PROCESS ================================== */
+
 #include "../inc/philo.h"
 
-//================================ PROCESS =================================//
 /* Function to create all philosopher threads */
 int	create_philo(t_data *data)
 {
@@ -12,7 +24,7 @@ int	create_philo(t_data *data)
 	{
 		data->philo[i].time_meal = data->start;
 		if (pthread_create(&data->philo[i].thread, NULL,
-			philo_routine, &data->philo[i]) != 0)
+				philo_routine, &data->philo[i]) != 0)
 		{
 			pthread_mutex_lock(&data->dead_mutex);
 			data->stop_all = true;
@@ -28,7 +40,7 @@ int	create_philo(t_data *data)
 int	create_monitor(t_data *data)
 {
 	if (pthread_create(&data->monitor_thread, NULL,
-		monitor_routine, data) != 0)
+			monitor_routine, data) != 0)
 	{
 		pthread_mutex_lock(&data->dead_mutex);
 		data->stop_all = true;
@@ -51,7 +63,7 @@ int	join_philo(t_data *data)
 			return (msg_error("Failed to join philosopher thread"));
 		}
 		i++;
-	}	
+	}
 	if (pthread_join(data->monitor_thread, NULL) != 0)
 	{
 		return (msg_error("Failed to join monitor thread"));
