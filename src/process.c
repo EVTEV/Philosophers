@@ -29,6 +29,8 @@ int	create_philo(t_data *data)
 			pthread_mutex_lock(&data->dead_mutex);
 			data->stop_all = true;
 			pthread_mutex_unlock(&data->dead_mutex);
+			while (--i >= 0)
+				pthread_join(data->philo[i].thread, NULL);
 			return (msg_error("Failed to create philosopher thread"));
 		}
 		i++;
@@ -45,6 +47,7 @@ int	create_monitor(t_data *data)
 		pthread_mutex_lock(&data->dead_mutex);
 		data->stop_all = true;
 		pthread_mutex_unlock(&data->dead_mutex);
+		join_philo(data);
 		return (msg_error("Failed to create monitor thread"));
 	}
 	return (0);

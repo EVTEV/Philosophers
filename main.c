@@ -14,6 +14,9 @@
 
 static int	r_one(t_data *data)
 {
+	pthread_mutex_lock(&data->dead_mutex);
+	data->stop_all = true;
+	pthread_mutex_unlock(&data->dead_mutex);
 	cleanup(data);
 	return (1);
 }
