@@ -67,6 +67,8 @@ typedef struct s_data
 int		init_data(t_data *data, int ac, char **av);
 int		init_mutex(t_data *data);
 int		init_fork(t_data *data);
+
+// --------------- init_philo.c --------------- //
 int		init_philo(t_data *data);
 
 // --------------- process.c --------------- //
@@ -95,8 +97,8 @@ void	cleanup(t_data *data);
 // --------------- utils.c --------------- //
 long long	get_time(void);
 long long	time_diff(long long past, long long present);
-void	precise_sleep(long long time);
-void	print_status(t_philo *philo, char *status);
+void		precise_sleep(long long time);
+void		print_status(t_philo *philo, char *status);
 
 // --------------- libft_utils.c --------------- //
 int		ft_atoi(const char *str);
