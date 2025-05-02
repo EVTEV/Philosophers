@@ -13,8 +13,8 @@
 
 #include "../inc/philo.h"
 
-/* Parse and validate command line arguments */
-static int	parse_args(t_data *data, int ac, char **av)
+/* Initialize data structure with command line arguments */
+int	init_data(t_data *data, int ac, char **av)
 {
 	data->num_philo = ft_atoi(av[1]);
 	data->time_to_die = ft_atoi(av[2]);
@@ -29,12 +29,6 @@ static int	parse_args(t_data *data, int ac, char **av)
 		|| data->time_to_eat <= 0 || data->time_to_sleep <= 0
 		|| (ac == 6 && data->num_meal <= 0))
 		return (msg_error("Invalid arguments"));
-	return (0);
-}
-
-/* Allocate memory for philosophers and forks */
-static int	allocate_resources(t_data *data)
-{
 	data->philo = malloc(sizeof(t_philo) * data->num_philo);
 	if (!data->philo)
 		return (msg_error("Memory allocation failed"));
@@ -44,16 +38,6 @@ static int	allocate_resources(t_data *data)
 		free(data->philo);
 		return (msg_error("Memory allocation failed for forks"));
 	}
-	return (0);
-}
-
-/* Initialize data structure with command line arguments */
-int	init_data(t_data *data, int ac, char **av)
-{
-	if (parse_args(data, ac, av) != 0)
-		return (1);
-	if (allocate_resources(data) != 0)
-		return (1);
 	return (0);
 }
 
@@ -87,6 +71,26 @@ int	init_fork(t_data *data)
 				pthread_mutex_destroy(&data->fork[i].mutex);
 			return (msg_error("Failed to initialize fork mutex"));
 		}
+		i++;
+	}
+	return (0);
+}
+
+/* Initialize philosopher structures and assign forks */
+int	init_philo(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->num_philo)
+	{
+		data->philo[i].id = i + 1;
+		data->philo[i].state = THINKING;
+		data->philo[i].meal_eat = 0;
+		data->philo[i].time_meal = 0;
+		data->philo[i].data = data;
+		data->philo[i].left_fork = &data->fork[i];
+		data->philo[i].right_fork = &data->fork[(i + 1) % data->num_philo];
 		i++;
 	}
 	return (0);

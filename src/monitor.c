@@ -34,34 +34,40 @@ static int	check_if_finish(t_data *data)
 	return (finish == data->num_philo);
 }
 
+/* Check if a specific philosopher has died due to starvation */
+static int	is_philo_dead(t_data *data, int i, long long current)
+{
+	long long	last_meal;
+
+	if (data->philo[i].time_meal == 0)
+		return (0);
+	last_meal = current - data->philo[i].time_meal;
+	if (last_meal > data->time_to_die)
+	{
+		data->stop_all = true;
+		pthread_mutex_unlock(&data->dead_mutex);
+		pthread_mutex_lock(&data->print_mutex);
+		printf("%lld %d died\n",
+			current - data->start, data->philo[i].id);
+		pthread_mutex_unlock(&data->print_mutex);
+		return (1);
+	}
+	return (0);
+}
+
 /* Check if any philosopher has died due to starvation */
 static int	check_if_death(t_data *data)
 {
 	int			i;
 	long long	current;
-	long long	last_meal;
 
 	current = get_time();
 	i = 0;
 	pthread_mutex_lock(&data->dead_mutex);
 	while (i < data->num_philo)
 	{
-		if (data->philo[i].time_meal == 0)
-		{
-			i++;
-			continue ;
-		}
-		last_meal = current - data->philo[i].time_meal;
-		if (last_meal > data->time_to_die)
-		{
-			data->stop_all = true;
-			pthread_mutex_unlock(&data->dead_mutex);
-			pthread_mutex_lock(&data->print_mutex);
-			printf("%lld %d died\n",
-				current - data->start, data->philo[i].id);
-			pthread_mutex_unlock(&data->print_mutex);
+		if (is_philo_dead(data, i, current))
 			return (1);
-		}
 		i++;
 	}
 	pthread_mutex_unlock(&data->dead_mutex);
