@@ -1,5 +1,7 @@
 #include "../inc/philo.h"
 
+//================================ UTILS =================================//
+/* Convert string to integer (simple atoi implementation) */
 int	ft_atoi(const char *str)
 {
 	int	i;
@@ -25,6 +27,7 @@ int	ft_atoi(const char *str)
 	return (result * sign);
 }
 
+/* Get current time in milliseconds */
 long long	get_time(void)
 {
 	struct timeval	tv;
@@ -33,11 +36,13 @@ long long	get_time(void)
 	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
+/* Calculate time difference between two timestamps */
 long long	time_diff(long long past, long long present)
 {
 	return (present - past);
 }
 
+/* Sleep for a precise amount of time in milliseconds */
 void	precise_sleep(long long time)
 {
 	long long	start;
@@ -47,6 +52,7 @@ void	precise_sleep(long long time)
 		usleep(100);
 }
 
+/* Print philosopher status message with timestamp */
 void	print_status(t_philo *philo, char *status)
 {
 	long long	current_time;

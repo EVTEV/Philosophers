@@ -1,5 +1,6 @@
 #include "../inc/philo.h"
 
+//================================ PROCESS =================================//
 /* Function to create all philosopher threads */
 int	create_philo(t_data *data)
 {
@@ -24,7 +25,7 @@ int	create_philo(t_data *data)
 	return (0);
 }
 
-/* Function to create monitoring thread */
+/* Function to create monitoring thread for death and completion */
 int	create_monitor(t_data *data)
 {
 	if (pthread_create(&data->monitor_thread, NULL,

@@ -1,12 +1,14 @@
 #include "../inc/philo.h"
 
+//================================ INIT =================================//
+/* Initialize data structure with command line arguments */
 int	init_data(t_data *data, int ac, char **av)
 {
 	data->num_philo = ft_atoi(av[1]);
 	data->time_to_die = ft_atoi(av[2]);
 	data->time_to_eat = ft_atoi(av[3]);
 	data->time_to_sleep = ft_atoi(av[4]);
-	data->meal_stop = false;
+	data->stop_all = false;
 	if (ac == 6)
 		data->num_meal =  ft_atoi(av[5]);
 	else
@@ -34,6 +36,7 @@ int	init_data(t_data *data, int ac, char **av)
 	return (0);
 }
 
+/* Initialize mutexes for printing and death checking */
 int	init_mutex(t_data *data)
 {
 	if (pthread_mutex_init(&data->print_mutex, NULL) != 0)
@@ -50,6 +53,7 @@ int	init_mutex(t_data *data)
 	return (0);
 }
 
+/* Initialize fork mutexes for each philosopher */
 int	init_fork(t_data *data)
 {
 	int	i;
@@ -70,6 +74,7 @@ int	init_fork(t_data *data)
 	return (0);
 }
 
+/* Initialize philosopher structures and assign forks */
 int	init_philo(t_data *data)
 {
 	int	i;

@@ -1,6 +1,7 @@
 #include "../inc/philo.h"
 
-/* this fonction destroy mutexes and free allocated memory */
+//================================ CLEANUP =================================//
+/* Function for destroy mutexes and frees allocated memory */
 void	cleanup(t_data *data)
 {
 	int	i;

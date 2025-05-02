@@ -1,4 +1,4 @@
-#include "../../inc/philo.h"
+#include "../inc/philo.h"
 
 //================================ UTILS FOR ROUTINE =================================//
 /* Check if routine should stop */
@@ -17,9 +17,6 @@ bool	check_stop_condition(t_philo *philo)
 /* Function to take both forks */
 void	take_forks(t_philo *philo)
 {
-	t_data	*data;
-
-	data = philo->data;
 	if (philo->left_fork->id < philo->right_fork->id)
 	{
 		pthread_mutex_lock(&philo->left_fork->mutex);

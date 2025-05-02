@@ -1,12 +1,13 @@
 #include "../inc/philo.h"
 
+//================================ MONITOR =================================//
 /* Check if all philosophers have eaten enough meals */
 static int	check_if_finish(t_data *data)
 {
 	int	i;
 	int	finish;
 
-	if (data->num_meals == -1)
+	if (data->num_meal == -1)
 		return (0);
 	finish = 0;
 	i = 0;
@@ -18,10 +19,10 @@ static int	check_if_finish(t_data *data)
 		i++;
 	}
 	pthread_mutex_unlock(&data->dead_mutex);
-	return (finish == data->num_philos);
+	return (finish == data->num_philo);
 }
 
-/* Check if any philosopher has died */
+/* Check if any philosopher has died due to starvation */
 static int	check_if_death(t_data *data)
 {
 	int			i;
@@ -55,7 +56,7 @@ static int	check_if_death(t_data *data)
 	return (0);
 }
 
-/* Main routine for the monitoring thread */
+/* Main routine for the monitoring thread to check death and meal completion */
 void	*monitor_routine(void *arg)
 {
 	t_data	*data;
@@ -75,7 +76,7 @@ void	*monitor_routine(void *arg)
 			break ;
 		}
 		pthread_mutex_lock(&data->dead_mutex);
-		stop_routine = data->stop;
+		stop_routine = data->stop_all;
 		pthread_mutex_unlock(&data->dead_mutex);
 		if (stop_routine)
 			break ;

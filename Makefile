@@ -9,13 +9,13 @@ SRC_DIR = src
 OBJ_DIR = obj
 
 SRC = main.c \
-	  $(SRC_DIR)/init.c) \
-	  $(SRC_DIR)/process.c) \
-	  $(SRC_DIR)/routine.c) \
-	  $(SRC_DIR)/routine_utils.c) \
-	  $(SRC_DIR)/monitor.c) \
-	  $(SRC_DIR)/clean.c) \
-	  $(SRC_DIR)/utils.c)
+	  $(SRC_DIR)/init.c \
+	  $(SRC_DIR)/process.c \
+	  $(SRC_DIR)/routine.c \
+	  $(SRC_DIR)/routine_utils.c \
+	  $(SRC_DIR)/monitor.c \
+	  $(SRC_DIR)/clean.c \
+	  $(SRC_DIR)/utils.c
 
 OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
