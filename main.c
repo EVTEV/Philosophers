@@ -12,11 +12,11 @@
 
 #include "inc/philo.h"
 
-static int	r_one(t_data *data)
+static int	handle_error(t_data *data)
 {
-	pthread_mutex_lock(&data->dead_mutex);
+	pthread_mutex_lock(&data->mutex_stop_all);
 	data->stop_all = true;
-	pthread_mutex_unlock(&data->dead_mutex);
+	pthread_mutex_unlock(&data->mutex_stop_all);
 	cleanup(data);
 	return (1);
 }
@@ -35,13 +35,13 @@ int	main(int argc, char **argv)
 	if (init_data(&data, argc, argv) != 0)
 		return (1);
 	if (init_mutex(&data) != 0)
-		return (r_one(&data));
+		return (handle_error(&data));
 	if (init_fork(&data) != 0)
-		return (r_one(&data));
+		return (handle_error(&data));
 	if (init_philo(&data) != 0)
-		return (r_one(&data));
-	if (start_routine(&data) != 0)
-		return (r_one(&data));
+		return (handle_error(&data));
+	if (start_process(&data) != 0)
+		return (handle_error(&data));
 	cleanup(&data);
 	return (0);
 }

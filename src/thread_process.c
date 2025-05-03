@@ -9,7 +9,7 @@
 /*   Updated: 2025/05/02 12:10:05 by acaes            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-/* ================================ ROUTINE ================================= */
+/* ============================= THREAD_PROCESS ============================= */
 
 #include "../inc/philo.h"
 
@@ -20,15 +20,15 @@ void	philo_eat(t_philo *philo)
 
 	data = philo->data;
 	take_forks(philo);
-	pthread_mutex_lock(&data->dead_mutex);
+	pthread_mutex_lock(&data->mutex_stop_all);
 	philo->state = EATING;
 	philo->time_meal = get_time();
-	pthread_mutex_unlock(&data->dead_mutex);
+	pthread_mutex_unlock(&data->mutex_stop_all);
 	print_status(philo, "is eating");
 	precise_sleep(data->time_to_eat);
-	pthread_mutex_lock(&data->dead_mutex);
+	pthread_mutex_lock(&data->mutex_stop_all);
 	philo->meal_eat++;
-	pthread_mutex_unlock(&data->dead_mutex);
+	pthread_mutex_unlock(&data->mutex_stop_all);
 	release_forks(philo);
 }
 
@@ -38,9 +38,9 @@ void	philo_sleep(t_philo *philo)
 	t_data	*data;
 
 	data = philo->data;
-	pthread_mutex_lock(&data->dead_mutex);
+	pthread_mutex_lock(&data->mutex_stop_all);
 	philo->state = SLEEPING;
-	pthread_mutex_unlock(&data->dead_mutex);
+	pthread_mutex_unlock(&data->mutex_stop_all);
 	print_status(philo, "is sleeping");
 	precise_sleep(data->time_to_sleep);
 }
@@ -50,9 +50,9 @@ void	philo_think(t_philo *philo)
 {
 	long long	think_time;
 
-	pthread_mutex_lock(&philo->data->dead_mutex);
+	pthread_mutex_lock(&philo->data->mutex_stop_all);
 	philo->state = THINKING;
-	pthread_mutex_unlock(&philo->data->dead_mutex);
+	pthread_mutex_unlock(&philo->data->mutex_stop_all);
 	print_status(philo, "is thinking");
 	if (philo->data->num_philo % 2 == 0)
 	{
@@ -67,7 +67,7 @@ void	philo_think(t_philo *philo)
 }
 
 /* Main routine for each philosopher thread */
-void	*philo_routine(void *arg)
+void	*thread_process(void *arg)
 {
 	t_philo	*philo;
 	t_data	*data;

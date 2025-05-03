@@ -58,8 +58,8 @@ typedef struct s_data
 	long long		start;
 	t_fork			*fork;
 	t_philo			*philo;
-	pthread_mutex_t	print_mutex;
-	pthread_mutex_t	dead_mutex;
+	pthread_mutex_t	mutex_state;
+	pthread_mutex_t	mutex_stop_all;
 	pthread_t		monitor_thread;
 }	t_data;
 
@@ -69,30 +69,31 @@ int			init_mutex(t_data *data);
 int			init_fork(t_data *data);
 int			init_philo(t_data *data);
 
-// --------------- process.c --------------- //
-int			create_philo(t_data *data);
+// --------------- main_process.c --------------- //
+int			create_thread(t_data *data);
 int			create_monitor(t_data *data);
-int			join_philo(t_data *data);
-int			start_routine(t_data *data);
+int			join_thread(t_data *data);
+int			start_process(t_data *data);
 
-// --------------- routine.c --------------- //
+// --------------- monitor_process.c --------------- //
+void		*monitor_routine(void *arg);
+
+// --------------- thread_process.c --------------- //
 void		philo_eat(t_philo *philo);
 void		philo_sleep(t_philo *philo);
 void		philo_think(t_philo *philo);
-void		*philo_routine(void *arg);
-// --------------- routine_utils.c --------------- //
+void		*thread_process(void *arg);
+
+// --------------- thread_utils.c --------------- //
 bool		check_stop_condition(t_philo *philo);
 void		take_forks(t_philo *philo);
 void		release_forks(t_philo *philo);
 bool		has_eaten_enough(t_philo *philo);
 
-// --------------- monitor.c --------------- //
-void		*monitor_routine(void *arg);
-
 // --------------- clean.c --------------- //
 void		cleanup(t_data *data);
 
-// --------------- utils.c --------------- //
+// --------------- timestamp.c --------------- //
 long long	get_time(void);
 long long	time_diff(long long past, long long present);
 void		precise_sleep(long long time);

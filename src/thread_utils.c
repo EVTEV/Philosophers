@@ -20,9 +20,9 @@ bool	check_stop_condition(t_philo *philo)
 	t_data	*data;
 
 	data = philo->data;
-	pthread_mutex_lock(&data->dead_mutex);
+	pthread_mutex_lock(&data->mutex_stop_all);
 	should_stop = data->stop_all;
-	pthread_mutex_unlock(&data->dead_mutex);
+	pthread_mutex_unlock(&data->mutex_stop_all);
 	return (should_stop);
 }
 
@@ -59,8 +59,8 @@ bool	has_eaten_enough(t_philo *philo)
 	bool	enough;
 
 	data = philo->data;
-	pthread_mutex_lock(&data->dead_mutex);
+	pthread_mutex_lock(&data->mutex_stop_all);
 	enough = (data->num_meal != -1 && philo->meal_eat >= data->num_meal);
-	pthread_mutex_unlock(&data->dead_mutex);
+	pthread_mutex_unlock(&data->mutex_stop_all);
 	return (enough);
 }

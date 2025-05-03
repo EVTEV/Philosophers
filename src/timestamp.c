@@ -9,7 +9,7 @@
 /*   Updated: 2025/05/02 12:12:02 by acaes            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-/* ================================= UTILS ================================== */
+/* ================================= TIMESTAMP ================================== */
 
 #include "../inc/philo.h"
 
@@ -46,13 +46,13 @@ void	print_status(t_philo *philo, char *status)
 	bool		should_stop;
 
 	data = philo->data;
-	pthread_mutex_lock(&data->dead_mutex);
+	pthread_mutex_lock(&data->mutex_stop_all);
 	should_stop = data->stop_all;
-	pthread_mutex_unlock(&data->dead_mutex);
+	pthread_mutex_unlock(&data->mutex_stop_all);
 	if (should_stop)
 		return ;
 	current_time = get_time() - data->start;
-	pthread_mutex_lock(&data->print_mutex);
+	pthread_mutex_lock(&data->mutex_state);
 	printf("%lld %d %s\n", current_time, philo->id, status);
-	pthread_mutex_unlock(&data->print_mutex);
+	pthread_mutex_unlock(&data->mutex_state);
 }
